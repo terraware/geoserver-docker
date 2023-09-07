@@ -80,6 +80,7 @@ The ``startup.sh`` script allows some customization on startup:
   * ``CORS_ALLOWED_ORIGINS`` (default ``*``)
   * ``CORS_ALLOWED_METHODS`` (default ``GET,POST,PUT,DELETE,HEAD,OPTIONS``)
   * ``CORS_ALLOWED_HEADERS`` (default ``*``)
+  * ``CORS_ALLOW_CREDENTIALS`` (default ``false``) **Setting this to ``true`` will only have the desired effect if ``CORS_ALLOWED_ORIGINS`` defines explicit origins (not ``*``)**
 * ``PROXY_BASE_URL`` to the base URL of the GeoServer web app if GeoServer is behind a proxy. Example: ``https://example.com/geoserver``.
 
 Example installing wps and ysld extensions:

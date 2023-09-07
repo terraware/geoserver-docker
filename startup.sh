@@ -56,6 +56,14 @@ fi
 if [ "${CORS_ENABLED}" = "true" ]; then
   if ! grep -q DockerGeoServerCorsFilter "${GEOSERVER_WEB_XML}"; then
     echo "Enable CORS for ${GEOSERVER_WEB_XML}"
+
+    # Add support for access-control-allow-credentials when the origin is not a wildcard when specified via env var
+    if [ "${CORS_ALLOWED_ORIGINS}" != "*" ] && [ "${CORS_ALLOW_CREDENTIALS}" = "true" ]; then
+      CORS_ALLOW_CREDENTIALS="true"
+    else
+      CORS_ALLOW_CREDENTIALS="false"
+    fi
+
     sed -i "\:</web-app>:i\\
     <filter>\n\
       <filter-name>DockerGeoServerCorsFilter</filter-name>\n\
@@ -71,6 +79,10 @@ if [ "${CORS_ENABLED}" = "true" ]; then
       <init-param>\n\
         <param-name>cors.allowed.headers</param-name>\n\
         <param-value>${CORS_ALLOWED_HEADERS}</param-value>\n\
+      </init-param>\n\
+      <init-param>\n\
+        <param-name>cors.support.credentials</param-name>\n\
+        <param-value>${CORS_ALLOW_CREDENTIALS}</param-value>\n\
       </init-param>\n\
     </filter>\n\
     <filter-mapping>\n\
